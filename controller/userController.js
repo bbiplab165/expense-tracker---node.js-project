@@ -9,17 +9,42 @@ exports.getPage=(req,res)=>{
         console.log(err);
     }
 }
-exports.saveUser = (req, res) => {
+exports.saveUser = async(req, res) => {
     try {
         const data=req.body
-        // console.log(data);
         const {name,email,password}=data
-        userModel.create({
-            name,email,password
+        const userData=await userModel.findAll({
+            where:{email:email}
         })
-        console.log('user Created sucessfully');
+        if(!userData)    {
+            console.log('Created sucessfully');
+            userModel.create({
+                name,email,password
+            })
+            location.reload();
+        }
+        console.log("user already present");
     }
     catch (err) {
         console.log(err);
     }
 }
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const items = await userModel.findAll({
+            where: { email: email,password: password }
+        });
+        console.log(items.length)
+        if(items.length>0){
+            console.log('login Sucessfull')
+        }
+        else{
+            console.log('user not found')
+        }  
+        res.json(items);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+};

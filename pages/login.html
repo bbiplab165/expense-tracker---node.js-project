@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <form>
-        <h1>hello</h1>
+    <form id="submitForm" action="/login" method="POST">
+        <label>Enter Your Email</label>
+        <input type="text" id="email">
+        <label>Enter password</label>
+        <input type="text" id="password">
+        <button type="submit" id="submit">Login</button>
     </form>
+    <a href="signup.html">New User - Signup Now</a>
 </body>
+<script src="login.js"></script>
 </html>
