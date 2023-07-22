@@ -1,29 +1,24 @@
 const Sequelize=require('sequelize')
-const sequelize=require('../util/database')
 
-const user=sequelize.define('user',{
+const sequelize=require('../util/database')
+const expense=sequelize.define('expense',{
     id:{
         type:Sequelize.INTEGER,
         allowNull:false,
         autoIncrement:true,
         primaryKey:true
     },
-    name:{
+    expense:{
         type:Sequelize.STRING,
         allowNull:false,
     },
-    email:{
+    description:{
         type:Sequelize.STRING,
         allowNull:false,
     },
-    password:{
+    category:{
         type:Sequelize.STRING,
         allowNull:false,
-    },
-    isprime: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false 
     }
 })
-
-module.exports=user
+module.exports=expense 
