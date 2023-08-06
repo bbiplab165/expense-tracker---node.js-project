@@ -3,6 +3,10 @@ const expenseModel = require("../model/expense")
 const path = require('path')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const Sib = require('sib-api-v3-sdk')
+
+
+require('dotenv').config()
 
 exports.getPage = (req, res) => {
     try {
@@ -90,26 +94,38 @@ exports.leaderboad = async (req, res) => {
         // console.log(users[1]);
         for (const user of users) {
             const userId = user.id;
-            console.log(userId);
-            console.log(user.id);
-            const expenses = await expenseModel.findAll({where:{userId}});
+            // console.log(userId);
+            // console.log(user.id);
+            const expenses = await expenseModel.findAll({ where: { userId } });
             // console.log(expenses);
-            let totalExpense=0
-            for(const ex of expenses){
-                const expenseValue =Number(ex.expense)
-                totalExpense=totalExpense+expenseValue 
+            let totalExpense = 0
+            for (const ex of expenses) {
+                const expenseValue = Number(ex.expense)
+                totalExpense = totalExpense + expenseValue
             }
-            console.log(totalExpense);
+            // console.log(totalExpense);
 
             // user.dataValues.expenses = expenses;
             data.push({ name: user.name, totalExpense: totalExpense });
         }
         data.sort((a, b) => b.totalExpense - a.totalExpense);
 
-        console.log("all users with expenses");
+        // console.log("all users with expenses");
         return res.status(201).json({ success: true, message: "Success", data: data });
     }
     catch (err) {
+        return res.status(500).json({ error: 'An error occurred' });
+    }
+}
+
+exports.expenseDetail=async (req,res)=>{
+    try{
+        const user=req.user
+        const userDetail=await expenseModel.findAll({where:{}})
+        // console.log(user);
+        return res.status(201).json({ success: true, message: "Success" ,data:userDetail});
+    }
+    catch(err){
         return res.status(500).json({ error: 'An error occurred' });
     }
 }

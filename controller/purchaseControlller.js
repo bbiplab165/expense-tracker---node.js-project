@@ -1,11 +1,14 @@
 const Razorpay = require('razorpay');
 const orderModel = require('../model/order');
+const sequilize=require("../util/database")
+require('dotenv').config()
 
 exports.purchase = async (req, res) => {
+    const t=sequilize.transaction()
     try {
         const rzp = new Razorpay({
-            key_id: 'rzp_test_Zq3DEZ3JWPqQYJ',
-            key_secret: 'tn5QQiKwSUnKNaintIDq7q1G',
+            key_id:process.env.RAZORPAY_KEYID ,
+            key_secret:process.env.RAZORPAY_SECRET ,
         });
 
         const amount = 100.00;
@@ -17,7 +20,7 @@ exports.purchase = async (req, res) => {
             }
 
             try {
-                await req.user.createOrder({ orderid: order.id, status: 'PENDING' });
+                await req.user.createOrder({ orderid: order.id, status: 'PENDING' }); 
                 return res.status(201).json({ order, key_id: rzp.key_id });
             } catch (err) {
                 console.log(err);

@@ -9,7 +9,7 @@ exports.Authenticate = async (req, res, next) => {
         if (!data)
             return res.status(401).send({ status: false, msg: "Token is invalid" })
         const userId = data.userId
-        console.log("User id is" + userId)
+        // console.log("User id is" + userId)
         // req.user=userModel.findByID(userId)
         req.user = await userModel.findOne({where:{id:userId}});
         next()
